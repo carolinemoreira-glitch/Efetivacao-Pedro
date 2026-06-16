@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parabéns pela sua Efetivação · Distrito</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#d0095f;--brand-dim:rgba(208,9,95,.09);--brand-dim2:rgba(208,9,95,.18);
+  --bg:#0d0d0d;--bg2:#161616;--bg3:#1e1e1e;
+  --fg1:#f2f2f2;--fg2:#999;--fg3:#555;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);--border-brand:rgba(208,9,95,.3);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.09);--green-border:rgba(34,197,94,.3);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,.09);--blue-border:rgba(59,130,246,.3);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.09);--amber-border:rgba(245,158,11,.3);
+  --font:'Red Hat Display',system-ui,sans-serif;
+  --r:12px;--r-lg:20px;--r-pill:100px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+*{cursor:none!important}
+html,body{font-family:var(--font);background:var(--bg);color:var(--fg1);overflow:hidden;height:100vh;width:100vw}
+#cur{position:fixed;left:-300px;top:-300px;width:8px;height:8px;background:var(--brand);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .12s,height .12s}
+#cur-ring{position:fixed;left:-300px;top:-300px;width:30px;height:30px;border:1px solid rgba(208,9,95,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0;transition:width .2s,height .2s,opacity .3s}
+body.m-on #cur-ring{opacity:1}
+body.hov #cur{width:14px;height:14px}
+body.hov #cur-ring{width:40px;height:40px;opacity:.3}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--brand);z-index:600;width:0;transition:width .5s cubic-bezier(.16,1,.3,1)}
+#snav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:8px}
+.nd{width:5px;height:5px;border-radius:50%;border:1px solid var(--fg3);background:transparent;transition:all .22s}
+.nd.on{background:var(--brand);border-color:var(--brand);transform:scale(1.7)}
+.nd:hover{border-color:var(--brand)}
+#nav-up{position:fixed;right:36px;top:calc(50% - 124px);z-index:500}
+#nav-dn{position:fixed;right:36px;top:calc(50% + 88px);z-index:500}
+.arr{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--fg2);display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(8px)}
+.arr:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+.arr:disabled{opacity:.15;pointer-events:none}
+.arr svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+#sct{position:fixed;right:16px;bottom:24px;font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--fg3);z-index:500}
+#slides{position:fixed;inset:0;z-index:10}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s cubic-bezier(.16,1,.3,1);transform:translateY(20px);padding:52px 80px 68px;overflow:hidden}
+.slide.active{opacity:1;pointer-events:all;transform:none}
+.slide.out{opacity:0;transform:translateY(-20px);transition:opacity .25s ease,transform .25s ease}
+.inner{width:100%;max-width:1040px;margin:0 auto}
+.sh{margin-bottom:28px}
+.sh-ow{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.sh-line{width:28px;height:1.5px;background:var(--brand);flex-shrink:0}
+.sh-lbl{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand)}
+.sh h2{font-size:clamp(32px,4vw,54px);font-weight:700;line-height:1.0;letter-spacing:-.028em;color:var(--fg1)}
+.sh h2 em{font-style:normal;color:var(--brand)}
+.vline{width:1px;background:linear-gradient(var(--brand),transparent);margin:16px 0}
+.badge{display:inline-flex;align-items:center;gap:9px;background:var(--brand-dim);border:1px solid var(--border-brand);padding:6px 14px;border-radius:var(--r-pill);font-size:10.5px;font-weight:700;color:var(--brand);letter-spacing:.1em;text-transform:uppercase}
+.pulse{width:5px;height:5px;border-radius:50%;background:var(--brand);animation:pulse 2s infinite}
+.pulse-green{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 24px;position:relative;overflow:hidden;transition:border-color .22s,transform .22s,box-shadow .22s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.card:hover{border-color:var(--border-brand);transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,0,0,.4)}
+.card:hover::before{transform:scaleX(1)}
+.ic{width:36px;height:36px;border-radius:9px;background:var(--brand-dim);border:1px solid var(--border-brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic svg{width:16px;height:16px;stroke:var(--brand);stroke-width:1.6;fill:none}
+.ic-green{background:var(--green-dim);border-color:var(--green-border);}
+.ic-green svg{stroke:var(--green);}
+.ic-blue{background:var(--blue-dim);border-color:var(--blue-border);}
+.ic-blue svg{stroke:var(--blue);}
+.ic-amber{background:var(--amber-dim);border-color:var(--amber-border);}
+.ic-amber svg{stroke:var(--amber);}
+.r{opacity:0;transform:translateY(13px);transition:opacity .46s cubic-bezier(.16,1,.3,1),transform .46s cubic-bezier(.16,1,.3,1)}
+.r.in{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}.d7{transition-delay:.49s}
+.dring{position:absolute;border-radius:50%;border:1px solid rgba(208,9,95,.07);pointer-events:none;z-index:0}
+.hl{display:flex;gap:11px;align-items:flex-start;padding:7px 10px;border-radius:8px;border:1px solid transparent;transition:background .2s,border-color .2s}
+.hl:hover{background:var(--brand-dim);border-color:var(--border-brand)}
+.hl-dot{width:4px;height:4px;border-radius:50%;background:var(--brand);margin-top:7px;flex-shrink:0}
+.hl-dot-green{background:var(--green);}
+.hl-t{font-size:13px;color:var(--fg2);line-height:1.6}
+.chk-row{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:8px;transition:background .2s;}
+.chk-row:hover{background:var(--brand-dim);}
+.chk-box{width:18px;height:18px;border-radius:5px;background:var(--green-dim);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.chk-box svg{width:10px;height:10px;stroke:var(--green);stroke-width:2.5;fill:none;}
+.chk-t{font-size:13.5px;color:var(--fg1);line-height:1.5;font-weight:500;}
+#kbh{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);z-index:500;display:flex;align-items:center;gap:7px;opacity:0;transition:opacity .5s;pointer-events:none}
+#kbh.vis{opacity:1}
+.kb{border:1px solid var(--border2);border-radius:4px;padding:2px 6px;font-size:9.5px;color:var(--fg3);background:var(--bg2)}
+.idx-item{display:flex;align-items:center;gap:13px;padding:9px 13px;border-radius:var(--r);border:1px solid transparent;transition:all .18s}
+.idx-item:hover{background:var(--brand-dim);border-color:var(--border-brand)}
+.idx-num{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--brand);min-width:22px}
+.idx-label{font-size:13.5px;color:var(--fg2)}
+.idx-item:hover .idx-label{color:var(--fg1)}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+<nav id="snav"></nav>
+<button class="arr" id="nav-up" disabled><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button class="arr" id="nav-dn"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+<div id="sct"></div>
+<div id="kbh"><span class="kb">↑↓</span> ou <span class="kb">←→</span></div>
+
+<div id="slides">
+
+<!-- 0 CAPA -->
+<div class="slide active" data-index="0">
+  <div class="dring" style="width:700px;height:700px;right:-200px;top:50%;transform:translateY(-50%)"></div>
+  <div class="dring" style="width:420px;height:420px;right:-60px;top:50%;transform:translateY(-50%)"></div>
+  <div class="inner">
+    <div class="r d1"><div class="badge"><div class="pulse"></div>Gente & Gestão · Distrito</div></div>
+    <div class="vline r d2" style="height:48px;"></div>
+    <h1 class="r d3" style="font-size:clamp(52px,7vw,104px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--fg1);">Parabéns, <em style="color:var(--brand);">Pedro!</em></h1>
+    <div class="vline r d4" style="height:28px;"></div>
+    <p class="r d5" style="font-size:16px;color:var(--fg2);line-height:1.7;max-width:600px;">Sua efetivação representa o reconhecimento da sua trajetória, das suas entregas e do seu potencial. Agora você inicia uma nova fase como <strong style="color:var(--fg1);">Distriter CLT</strong>.</p>
+    <div class="r d6" style="margin-top:28px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:var(--r-pill);">
+      <div class="pulse-green"></div>
+      <span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);">Novos direitos, benefícios e responsabilidades</span>
+    </div>
+  </div>
+</div>
+
+<!-- 1 ÍNDICE -->
+<div class="slide" data-index="1">
+  <div class="inner">
+    <div class="sh r">
+      <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">Navegação</div></div>
+      <h2>O que muda<br><em>com a efetivação</em></h2>
+    </div>
+    <div class="r d2" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 32px;max-width:800px;">
+      <div class="idx-item" onclick="goTo(2)"><div class="idx-num">01</div><div class="idx-label">Registro de Ponto</div></div>
+      <div class="idx-item" onclick="goTo(7)"><div class="idx-num">06</div><div class="idx-label">FGTS</div></div>
+      <div class="idx-item" onclick="goTo(3)"><div class="idx-num">02</div><div class="idx-label">Jornada de Trabalho</div></div>
+      <div class="idx-item" onclick="goTo(8)"><div class="idx-num">07</div><div class="idx-label">Benefícios e Descontos</div></div>
+      <div class="idx-item" onclick="goTo(4)"><div class="idx-num">03</div><div class="idx-label">Banco de Horas</div></div>
+      <div class="idx-item" onclick="goTo(9)"><div class="idx-num">08</div><div class="idx-label">Documentação e Processos</div></div>
+      <div class="idx-item" onclick="goTo(5)"><div class="idx-num">04</div><div class="idx-label">Férias</div></div>
+      <div class="idx-item" onclick="goTo(6)"><div class="idx-num">05</div><div class="idx-label">13º Salário</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 REGISTRO DE PONTO -->
+<div class="slide" data-index="2">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">01 · Registro</div></div>
+          <h2>Registro<br><em>de Ponto</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">Como Distriter CLT, você passa a realizar o registro da sua jornada de trabalho. O registro correto é uma <strong style="color:var(--fg1);">responsabilidade do colaborador</strong> e garante a gestão adequada da jornada de trabalho.</p>
+        <div class="r d3" style="margin-top:18px;padding:13px 16px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:var(--r);display:flex;align-items:center;gap:11px;">
+          <div class="ic" style="flex-shrink:0;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <p style="font-size:12.5px;color:rgba(242,242,242,.8);line-height:1.6;">É importante registrar todos os momentos da sua jornada diária.</p>
+        </div>
+      </div>
+      <div class="r d2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;">
+        <div style="padding:12px 20px;border-bottom:1px solid var(--border);background:rgba(208,9,95,.06);">
+          <span style="font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);">Momentos obrigatórios</span>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;" onmouseenter="this.style.background='var(--brand-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);">01</div>
+            <div style="font-size:13px;font-weight:600;color:var(--fg1);">Entrada</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;" onmouseenter="this.style.background='var(--brand-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);">02</div>
+            <div style="font-size:13px;font-weight:600;color:var(--fg1);">Saída para almoço</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;" onmouseenter="this.style.background='var(--brand-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);">03</div>
+            <div style="font-size:13px;font-weight:600;color:var(--fg1);">Retorno do almoço</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;padding:16px 20px;transition:background .2s;" onmouseenter="this.style.background='var(--brand-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);">04</div>
+            <div style="font-size:13px;font-weight:600;color:var(--fg1);">Encerramento da jornada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 JORNADA -->
+<div class="slide" data-index="3">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">02 · Jornada</div></div>
+          <h2>Jornada de<br><em>Trabalho</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">Sua jornada passa a seguir a <strong style="color:var(--fg1);">carga horária prevista para colaboradores CLT</strong>. Ajustes de horário devem ser alinhados com a liderança.</p>
+      </div>
+      <div class="r d2" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic ic-amber"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Carga horária aumenta</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">A carga horária aumenta em relação ao período de estágio.</p>
+        </div>
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Regras de jornada da empresa</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Passam a valer integralmente as regras de jornada da empresa.</p>
+        </div>
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic ic-blue"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Alinhamento com liderança</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Ajustes de horário devem ser combinados diretamente com sua liderança.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 BANCO DE HORAS -->
+<div class="slide" data-index="4">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">03 · Banco de Horas</div></div>
+          <h2>Banco<br><em>de Horas</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">Agora você passa a fazer parte da <strong style="color:var(--fg1);">política de banco de horas do Distrito</strong>. Os saldos devem ser acompanhados regularmente.</p>
+      </div>
+      <div class="r d2" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="padding:20px 22px;background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,var(--bg2) 60%);border-color:var(--green-border);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic ic-green"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--green);">Saldo positivo</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Horas excedentes à jornada geram saldo positivo no banco de horas.</p>
+        </div>
+        <div class="card" style="padding:20px 22px;background:linear-gradient(135deg,rgba(239,68,68,.06) 0%,var(--bg2) 60%);border-color:rgba(239,68,68,.3);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#ef4444;stroke-width:1.6;fill:none"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:#ef4444;">Saldo negativo</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Ausências ou saídas antecipadas podem gerar saldo negativo.</p>
+        </div>
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic ic-blue"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Acompanhamento regular</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Os saldos devem ser monitorados de forma contínua.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 FÉRIAS -->
+<div class="slide" data-index="5">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">04 · Férias</div></div>
+          <h2>Direito<br><em>às Férias</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">O recesso de estágio deixa de existir. Como Distriter CLT, você passa a ter direito a férias remuneradas conforme a legislação trabalhista.</p>
+      </div>
+      <div class="r d2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;">
+        <div style="padding:12px 20px;border-bottom:1px solid var(--border);background:rgba(34,197,94,.06);">
+          <span style="font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);">Seus novos direitos</span>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;" onmouseenter="this.style.background='var(--green-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--green);stroke-width:1.8;fill:none"><path d="M9 11l3 3L22 4"/></svg></div>
+            <div><div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:2px;">30 dias de férias</div><div style="font-size:11.5px;color:var(--fg3);">Após completar o período aquisitivo</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;" onmouseenter="this.style.background='var(--green-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--green);stroke-width:1.8;fill:none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div><div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:2px;">Planejamento com liderança</div><div style="font-size:11.5px;color:var(--fg3);">Férias programadas junto ao seu gestor</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;transition:background .2s;" onmouseenter="this.style.background='var(--green-dim)'" onmouseleave="this.style.background=''">
+            <div style="width:32px;height:32px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--green);stroke-width:1.8;fill:none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div><div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:2px;">Adicional de 1/3</div><div style="font-size:11.5px;color:var(--fg3);">Pagamento do adicional constitucional sobre as férias</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 13º SALÁRIO -->
+<div class="slide" data-index="6">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">05 · 13º Salário</div></div>
+          <h2>13º<br><em>Salário</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">Você passa a receber o <strong style="color:var(--fg1);">13º salário</strong>, benefício garantido aos colaboradores CLT. O pagamento é realizado conforme calendário definido pela empresa e legislação vigente.</p>
+        <div class="r d3" style="margin-top:20px;padding:13px 16px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:var(--r);display:flex;align-items:center;gap:11px;">
+          <div class="pulse-green" style="flex-shrink:0;"></div>
+          <p style="font-size:12.5px;color:rgba(242,242,242,.8);line-height:1.6;">Benefício garantido por lei a todos os colaboradores com vínculo CLT.</p>
+        </div>
+      </div>
+      <div class="r d2" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;text-align:center;">
+          <div style="font-size:64px;font-weight:700;color:var(--green);letter-spacing:-.04em;line-height:1;">13º</div>
+          <div style="font-size:15px;font-weight:600;color:var(--fg1);margin-top:8px;">Salário</div>
+          <div style="width:40px;height:1px;background:var(--border);margin:16px auto;"></div>
+          <div style="font-size:12.5px;color:var(--fg3);line-height:1.7;">Equivalente a um salário mensal, pago em duas parcelas conforme o calendário da empresa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 FGTS -->
+<div class="slide" data-index="7">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">06 · FGTS</div></div>
+          <h2>Fundo de<br><em>Garantia (FGTS)</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">O Distrito passa a realizar <strong style="color:var(--fg1);">depósitos mensais de FGTS</strong> em seu nome. Esse valor constitui uma reserva financeira prevista em lei.</p>
+      </div>
+      <div class="r d2" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Depositado pela empresa</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">O Distrito deposita diretamente em conta vinculada ao seu CPF.</p>
+        </div>
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="ic ic-blue"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div style="font-size:14px;font-weight:700;color:var(--fg1);">Reserva financeira</div>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg3);line-height:1.65;">Constitui uma poupança obrigatória garantida pela legislação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 BENEFÍCIOS -->
+<div class="slide" data-index="8">
+  <div class="inner" style="max-width:980px;">
+    <div class="sh r" style="margin-bottom:20px;">
+      <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">07 · Benefícios</div></div>
+      <h2>Benefícios<br><em>e Descontos</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="r d2">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:4px;">O que você passa a ter</div>
+        <div class="card" style="padding:16px 18px;border-color:var(--green-border);background:linear-gradient(135deg,rgba(34,197,94,.04) 0%,var(--bg2) 60%);">
+          <div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:6px;">Salário CLT</div>
+          <div style="font-size:12px;color:var(--fg3);line-height:1.6;">A bolsa-auxílio passa a ser salário com todos os encargos previstos em lei.</div>
+        </div>
+        <div class="card" style="padding:16px 18px;border-color:var(--green-border);background:linear-gradient(135deg,rgba(34,197,94,.04) 0%,var(--bg2) 60%);">
+          <div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:6px;">Benefícios corporativos</div>
+          <div style="font-size:12px;color:var(--fg3);line-height:1.6;">Você se torna elegível aos benefícios corporativos aplicáveis ao seu cargo.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">Descontos legais em folha</div>
+        <div class="card" style="padding:16px 18px;border-color:var(--amber-border);background:linear-gradient(135deg,rgba(245,158,11,.04) 0%,var(--bg2) 60%);">
+          <div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:6px;">Desconto de INSS</div>
+          <div style="font-size:12px;color:var(--fg3);line-height:1.6;">Passam a existir descontos legais de INSS conforme a tabela vigente.</div>
+        </div>
+        <div class="card" style="padding:16px 18px;border-color:var(--amber-border);background:linear-gradient(135deg,rgba(245,158,11,.04) 0%,var(--bg2) 60%);">
+          <div style="font-size:13px;font-weight:700;color:var(--fg1);margin-bottom:6px;">Imposto de Renda</div>
+          <div style="font-size:12px;color:var(--fg3);line-height:1.6;">Pode haver desconto de IR conforme a faixa salarial e tabela progressiva.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 DOCUMENTAÇÃO -->
+<div class="slide" data-index="9">
+  <div class="inner" style="max-width:980px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;">
+      <div>
+        <div class="sh r">
+          <div class="sh-ow"><div class="sh-line"></div><div class="sh-lbl">08 · Processos</div></div>
+          <h2>Documentação<br><em>e Processos</em></h2>
+        </div>
+        <p class="r d2" style="font-size:14px;color:var(--fg2);line-height:1.75;">Com a efetivação, alguns processos passam a fazer parte da sua rotina como colaborador CLT do Distrito.</p>
+        <div class="r d3" style="margin-top:18px;padding:13px 16px;background:var(--brand-dim);border:1px solid var(--border-brand);border-radius:var(--r);display:flex;align-items:center;gap:11px;">
+          <div class="ic" style="flex-shrink:0;"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <p style="font-size:12.5px;color:rgba(242,242,242,.8);line-height:1.6;">O time de Gente & Gestão estará disponível para apoiar em cada etapa.</p>
+        </div>
+      </div>
+      <div class="r d2" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:4px;">Novos processos da rotina</div>
+        <div class="chk-row"><div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-t">Assinatura dos documentos admissionais</div></div>
+        <div class="chk-row"><div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-t">Registro de ponto obrigatório</div></div>
+        <div class="chk-row"><div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-t">Acompanhamento do banco de horas</div></div>
+        <div class="chk-row"><div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-t">Solicitação e programação de férias</div></div>
+        <div class="chk-row"><div class="chk-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-t">Gestão e utilização dos benefícios corporativos</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 ENCERRAMENTO -->
+<div class="slide" data-index="10">
+  <div class="dring" style="width:560px;height:560px;left:50%;top:50%;transform:translate(-50%,-50%)"></div>
+  <div class="dring" style="width:320px;height:320px;left:50%;top:50%;transform:translate(-50%,-50%)"></div>
+  <div class="inner" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+    <div class="r d1" style="display:inline-flex;align-items:center;gap:8px;background:var(--green-dim);border:1px solid var(--green-border);padding:6px 14px;border-radius:var(--r-pill);">
+      <div class="pulse-green"></div>
+      <span style="font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);">Bem-vindo ao time, Pedro!</span>
+    </div>
+    <div class="r d2" style="width:1px;height:56px;background:linear-gradient(var(--brand),transparent);margin:16px auto;"></div>
+    <p class="r d3" style="font-size:clamp(18px,2vw,24px);color:var(--fg2);max-width:560px;line-height:1.75;">Estamos felizes em continuar essa jornada com você. Conte com o time de <strong style="color:var(--fg1);">Gente & Gestão</strong> para apoiar sua transição e esclarecer qualquer dúvida.</p>
+    <div class="r d4" style="margin-top:40px;">
+      <img src="data:image/png;base64,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" alt="Distrito" style="height:22px;opacity:.6;">
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const curEl=document.getElementById('cur'),ringEl=document.getElementById('cur-ring');
+let mx=-400,my=-400,rx=-400,ry=-400,mIn=false;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.left=mx+'px';curEl.style.top=my+'px';if(!mIn){mIn=true;rx=mx;ry=my;document.body.classList.add('m-on');}});
+(function raf(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(raf);})();
+document.querySelectorAll('button,.nd,.card,.hl,.idx-item,.chk-row').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));});
+
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+function rsCv(){cv.width=window.innerWidth;cv.height=window.innerHeight;}rsCv();window.addEventListener('resize',rsCv);
+const pts=Array.from({length:38},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*.9+.3,o:Math.random()*.35+.18}));
+(function dp(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(208,9,95,'+p.o*.5+')';ctx.fill();});for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<80){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(208,9,95,'+(0.03*(1-d/80))+')';ctx.lineWidth=.35;ctx.stroke();}}requestAnimationFrame(dp);})();
+
+const slides=document.querySelectorAll('.slide');
+const N=slides.length;
+const snavEl=document.getElementById('snav');
+for(let i=0;i<N;i++){const d=document.createElement('div');d.className='nd'+(i===0?' on':'');d.dataset.slide=i;snavEl.appendChild(d);}
+const sct=document.getElementById('sct');
+const btnUp=document.getElementById('nav-up');
+const btnDn=document.getElementById('nav-dn');
+const prog=document.getElementById('prog');
+let cur=0,busy=false;
+sct.textContent='01/'+String(N).padStart(2,'0');
+
+function goTo(n){
+  if(busy||n===cur||n<0||n>=N)return;
+  busy=true;
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('out');
+  const prev=cur;cur=n;
+  setTimeout(()=>slides[prev].classList.remove('out'),280);
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.nd').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  sct.textContent=String(cur+1).padStart(2,'0')+'/'+String(N).padStart(2,'0');
+  btnUp.disabled=cur===0;btnDn.disabled=cur===N-1;
+  prog.style.width=((cur/(N-1))*100)+'%';
+  revealSlide(slides[cur]);
+  setTimeout(()=>busy=false,500);
+}
+
+function revealSlide(s){
+  s.querySelectorAll('.r').forEach(el=>el.classList.remove('in'));
+  requestAnimationFrame(()=>requestAnimationFrame(()=>s.querySelectorAll('.r').forEach(el=>el.classList.add('in'))));
+}
+
+document.querySelectorAll('.nd').forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.slide)));
+btnUp.addEventListener('click',()=>goTo(cur-1));
+btnDn.addEventListener('click',()=>goTo(cur+1));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight')goTo(cur+1);
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft')goTo(cur-1);
+});
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?goTo(cur+1):goTo(cur-1);}});
+let wLock=false;
+document.addEventListener('wheel',e=>{if(wLock||busy)return;wLock=true;setTimeout(()=>wLock=false,700);e.deltaY>0?goTo(cur+1):goTo(cur-1);},{passive:true});
+const kbh=document.getElementById('kbh');
+setTimeout(()=>kbh.classList.add('vis'),1500);
+setTimeout(()=>kbh.classList.remove('vis'),5500);
+revealSlide(slides[0]);
+</script>
+</body>
+</html>
